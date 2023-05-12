@@ -385,4 +385,50 @@ class Solution {
         }
         return mx;
     }
+
+    /**1027. 最长等差数列*/
+    public int longestArithSeqLength(int[] nums) {
+        if (nums.length < 2){
+            return nums.length;
+        }
+
+    }
+
+    /**1035. 不相交的线*/
+    public int maxUncrossedLines(int[] nums1, int[] nums2) {
+        int[][] dp = new int[nums1.length + 1][nums2.length + 1];
+        //含义为数组A的前i项和数组B的前j项的不相交的线的个数
+        for (int i = 0; i < dp.length; ++i) {
+            dp[i][0] = 0;
+        }
+        for (int i = 0; i < dp[0].length; ++i) {
+            dp[0][i] = 0;
+        }
+        for (int i = 1; i <= nums1.length; ++i) {
+            for (int j = 1; j <= nums2.length; ++j) {
+                if (nums1[i - 1] == nums2[j - 1]){
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                }else{
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        return dp[nums1.length][nums2.length];
+    }
+
+    /**96. 不同的二叉搜索树*/
+    public int numTrees(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;//确保  j == 1 时， dp[i] += 1 * dp[i - j];
+        dp[1] = 1;
+        if (n == 1){
+            return 1;
+        }
+        for (int i = 2; i <= n; ++i) {
+            for (int j = 1; j <= i; ++j) {
+                dp[i] += dp[j - 1] * dp[i - j];
+            }
+        }
+        return dp[n];
+    }
 }
