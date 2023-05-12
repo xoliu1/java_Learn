@@ -68,6 +68,9 @@ class Solution {
         if (obstacleGrid[0][0] == 1 || obstacleGrid[obstacleGrid.length - 1][obstacleGrid[0].length - 1] == 1) {
             return 0;
         }
+        if(obstacleGrid.length == 1 && obstacleGrid[0].length ==1 && obstacleGrid[0][0] == 0){
+            return 1;
+        }
         int row = obstacleGrid.length;
         int col = obstacleGrid[0].length;
         int[][] dp = new int[row][col];
@@ -319,4 +322,67 @@ class Solution {
         return  dp[len1][len2];
     }
 
+    /**646. 最长数对链*/
+    public int findLongestChain(int[][] pairs) {
+        if (pairs.length == 0 || pairs[0].length == 0){
+            return 0;
+        }
+        Arrays.sort(pairs, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        int[] dp = new int[pairs.length + 1];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < pairs.length; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (pairs[j][1] < pairs[i][0]){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        int mx = -1001;
+        for (int i = 0; i < dp.length; ++i) {
+            mx = Math.max(mx, dp[i]);
+        }
+        return mx;
+    }
+
+    /**1218. 最长定差子序列*/
+    public int longestSubsequence(int[] arr, int difference) {
+//        if (arr.length < 2){
+//            return arr.length;
+//        }
+//        int[] dp = new int[arr.length + 1];
+//        Arrays.fill(dp, 1);
+//        for (int i = 1; i < arr.length; ++i) {
+//            for (int j = 0; j < i; ++j) {
+//                if(arr[i] == arr[j] + difference){
+//                    dp[i] = Math.max(dp[i], dp[j] + 1);
+//                }
+//            }
+//        }
+//        int mx = -1001;
+//        for (int i = 0; i < dp.length; ++i) {
+//            mx = Math.max(mx, dp[i]);
+//        }
+//        return mx;
+        /**
+         * 上述方法超时啦！ 草
+         * 以下是哈希表的优化
+         * */
+        if (arr.length < 2){
+            return arr.length;
+        }
+        int mx = -1001;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i : arr) {
+            map.put(i, map.getOrDefault(i - difference, 0) + 1);
+            //如果存在该等差项的前一项，那么给这个次数加1
+            mx = Math.max(mx, map.get(i));
+            //更新最大值
+        }
+        return mx;
+    }
 }

@@ -21,7 +21,8 @@ public class Main {
         //分的集合是选择第i个物品选择第k个来划分，且 k * volume[i] <= 容量j
         /** 朴素做法*/
       //  int[][] dp = new int[n + 1][m + 1];
-      /*  for (int i = 1; i <= n; ++i) {
+      /*
+      for (int i = 1; i <= n; ++i) {
             for (int j = 0; j < m; ++j) {
                 for (int k = 0; k * volume[i] <= j; ++k) {      //最多k个，也就是全部装第 i 个
                     dp[i][j] = Math.max(dp[i][j], dp[i - 1][j - k * volume[i]] + k * weight[i]);
@@ -30,7 +31,8 @@ public class Main {
         }
       */
         /** 二维优化做法*/
-    /*    for (int i = 1; i <= n; ++i) {
+    /*
+        for (int i = 1; i <= n; ++i) {
             for (int j = 0; j <= m; ++j) {
                 dp[i][j] = dp[i - 1][j];
                 if (j >= volume[i]) {
@@ -38,7 +40,8 @@ public class Main {
                 }
             }
         }
-        System.out.println(dp[n][m]);*/
+        System.out.println(dp[n][m]);
+        */
 
         /**一维优化做法*/
         int[] dp = new int[m + 1];

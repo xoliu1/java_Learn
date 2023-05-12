@@ -1,7 +1,9 @@
 package DP.z01背包问题;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StreamTokenizer;
 
 /**
  有 N 件物品和一个容量是 V 的背包。每件物品只能使用一次。 第 i 件物品的体积是 vi ，价值是 wi 。
@@ -32,7 +34,6 @@ public class Main {
                 }else{
                     dp[i][j] = dp[i - 1][j];
                 }
-
             }
         }
         System.out.println(dp[n][m]);*/
