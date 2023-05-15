@@ -83,5 +83,53 @@ class stock{
         return dp[2 * k];
     }//1ms
 
+    /**309. 最佳买卖股票时机含冷冻期*/
+    public int maxProfitFrost(int[] prices) {
+        int[] dp=new int[4];
+        //四种状态，0手里有，1手里没有(之前卖出），2手里没有（今天卖出），3冷冻期
+        dp[0] = -prices[0];
+        dp[1] = 0;
+        for(int i = 1; i <= prices.length; i++){
+            // 使用临时变量来保存dp[0], dp[2]
+            // 因为马上dp[0]和dp[2]的数据都会变
+            int temp = dp[0];
+            int temp1 = dp[2];
+            //要么买过了，要么今天才买入(①前一天冷冻期，②前一天不是冷冻期但手中没有股票)
+            dp[0] = Math.max(dp[0], Math.max(dp[3], dp[1]) - prices[i-1]);
+            //要么昨天是冷冻期，要么昨天不是冷冻期
+            dp[1] = Math.max(dp[1], dp[3]);
+            //只能是今天卖出
+            dp[2] = temp + prices[i-1];
+            //只能是昨天卖出
+            dp[3] = temp1;
+        }
+        //取三种的最大值
+        return Math.max(dp[3],Math.max(dp[1],dp[2]));
+    }
 
+    /**714. 买卖股票的最佳时机含手续费*/
+    public int maxProfitCommission(int[] prices, int fee) {
+        if (prices.length < 2){
+            return 0;
+        }
+        //0手里没有，1手里有
+        /*
+        int[][] dp = new int[prices.length][2];
+        dp[0][1] = -prices[0];
+        for (int i = 1; i < prices.length; ++i) {
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i] - fee);
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        }
+        return dp[prices.length - 1][0];*/
+        //过啦！65%
+        /**一维优化*/
+        int[] dp = new int[2];
+        dp[1] = -prices[0];
+        for (int i = 1; i < prices.length; ++i) {
+            dp[0] = Math.max(dp[0], dp[1] + prices[i] - fee);
+            dp[1] = Math.max(dp[1], dp[0] - prices[i]);
+        }
+        return dp[0];
+        //过啦！75%
+    }
 }

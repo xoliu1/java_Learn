@@ -4,6 +4,7 @@ import java.util.*;
 
 public class solution {
     public static void main(String[] args) {
+
     }
 }
 
@@ -170,10 +171,73 @@ class Solution {
         }
         return stack.isEmpty();
     }
+
+    /**337. 打家劫舍 III*/
+    public int rob(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        int ans = 0;
+        ans += rob(root.left);
+        return 1;
+    }
+
+    /**1072. 按列翻转得到最大值等行数*/
+    public int maxEqualRowsAfterFlips(int[][] matrix) {
+       /* //本质是找出所有行中模式相同的行数最大值
+        HashMap<int[], Integer> map = new HashMap<>();
+        for (int[] array : matrix) {
+            map.put(array, map.getOrDefault(array, 0) + 1);
+            //记录这些模式的次数
+        }
+        //因为要记录的时模式，所以我们也要将反转后的进行记录
+        for (int i = 0; i < matrix.length; ++i) {
+            for (int j = 0; j < matrix[0].length; ++j) {
+                matrix[i][j] = Math.abs(matrix[i][j] - 1);
+            }
+        }
+        for (int[] array : matrix) {
+            map.put(array, map.getOrDefault(array, 0) + 1);
+        }
+        Collection<Integer> values = map.values();
+        int mx = 1;
+        for (Integer i : values) {
+            mx = Math.max(i, mx);
+        }
+        return mx;*/
+        for (int i = 0; i < matrix.length; ++i) {
+            if (matrix[i][0] == 1) {    //让所有开头都为 0
+                for (int j = 0; j < matrix[0].length; ++j) {
+                    matrix[i][j] = Math.abs(matrix[i][j] - 1);
+                }
+            }
+        }
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int[] array : matrix) {
+            map.put(Arrays.toString(array), map.getOrDefault(Arrays.toString(array), 0) + 1);
+        }
+        int mx = 1;
+        Collection<Integer> values = map.values();
+        for (Integer i : values) {
+            mx = Math.max(i, mx);
+        }
+        return mx;
+    }
+
+
 }
 
 
 //=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+
 class ListNode {
     int val;
     ListNode next;
