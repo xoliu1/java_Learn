@@ -391,6 +391,22 @@ class Solution {
         if (nums.length < 2){
             return nums.length;
         }
+        int mi = 501, mx = -1;
+        for (int i : nums) {
+            mx = Math.max(mx, i);
+            mi = Math.min(mi, i);
+        }
+        int len = mx - mi;
+        int[][] dp = new int[nums.length + 1][len];
+        //dp[i][j] 表示 前i个的数字，等差为j的等差数列的个数。
+        int mxlen = 1;
+        for (int i = -len; i <= len; ++i) {
+            mxlen = Math.max(mxlen, longestSubsequence(nums, i));
+            //调用搜索定差数列的方法。
+        }
+        return mxlen;
+        /**以上方法能过，但耗时太长太长*/
+
 
     }
 
@@ -431,4 +447,7 @@ class Solution {
         }
         return dp[n];
     }
+
+
+
 }
