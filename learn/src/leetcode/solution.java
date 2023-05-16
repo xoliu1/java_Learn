@@ -224,6 +224,31 @@ class Solution {
         return mx;
     }
 
+    /**二叉树的层序遍历*/
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null){
+            return res;
+        }
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.offer(root);
+        while(!deque.isEmpty()){
+            List<Integer> path = new ArrayList<>();
+            int size = deque.size();
+            while(size-- > 0){
+                TreeNode p = deque.poll();
+                path.add(p.val);
+                if(p.left != null){
+                    deque.offer(p.left);
+                }
+                if(p.right != null){
+                    deque.offer(p.right);
+                }
+            }
+            res.add(path);
+        }
+        return res;
+    }
 
 }
 
