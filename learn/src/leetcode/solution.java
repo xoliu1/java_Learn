@@ -249,7 +249,65 @@ class Solution {
         }
         return res;
     }
+    /**103. 二叉树的锯齿形层序遍历*/
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        if (root == null){
+            return res;
+        }
+        boolean flag = true;
+        deque.offer(root);
+        while(!deque.isEmpty()){
+            Deque<Integer> path = new LinkedList<>();
+            int size = deque.size();
+            while(size-- > 0){
+                TreeNode p = deque.poll();
+                if (flag){
+                    path.offerLast(p.val);
+                }else{
+                    path.offerFirst(p.val);
+                }
+                if (p.left != null){
+                    deque.offer(p.left);
+                }
+                if (p.right != null){
+                    deque.offer(p.right);
+                }
+            }
+            res.add(new LinkedList<>(path));//转换
+            flag = !flag;
+        }
+        return res;
+    }
 
+
+    /**107. 二叉树的层序遍历 II*/
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Deque<TreeNode> deque = new LinkedList<>();
+        if (root == null){
+            return res;
+        }
+        deque.offer(root);
+        while (!deque.isEmpty()){
+            ArrayList<Integer> path = new ArrayList<>();
+            int size = deque.size();
+            while(size-- > 0){
+                TreeNode p = deque.poll();
+                path.add(p.val);
+                if (p.left != null){
+                    deque.offer(p.left);
+                }
+                if (p.right != null){
+                    deque.offer(p.right);
+                }
+            }
+            res.add(path);
+        }
+        Collections.reverse(res);
+        return res;
+    }
 }
 
 
