@@ -462,5 +462,34 @@ class Solution {
         return dp[target];
     }
 
+    /**673. 最长递增子序列的个数*/
+    public int findNumberOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        int[] cnt = new int[nums.length];
+        int ans = 0;
+        int mx = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; ++i) {
+            cnt[i] = 1;
+            dp[i] = 1;
+            for (int j = 0; j < i; ++j) {
+                if (nums[i] > nums[j]) {
+                    if (dp[i] < dp[j] + 1){
+                        dp[i] = dp[j] + 1;
+                        cnt[i] = cnt[j];
+                    }else if(dp[j] + 1 == dp[i]){
+                        cnt[i] += cnt[j];
+                    }
+                }
+            }
+            if(dp[i] > mx){
+                mx = dp[i];
+                ans = cnt[i];
+            }else if (dp[i] == mx){
+                ans += cnt[i];
+            }
+        }
+        return ans;
+    }
+
 
 }
