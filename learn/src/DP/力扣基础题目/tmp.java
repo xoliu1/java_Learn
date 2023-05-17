@@ -490,6 +490,17 @@ class Solution {
         }
         return ans;
     }
+    /**2140. 解决智力问题*/
+    public long mostPoints(int[][] questions) {
+        var n = questions.length;
+        var dp = new long[n + 1];
+        for (int i = n - 1; i >= 0; i--) {
+            var points = questions[i][0];
+            var brainpower = questions[i][1];
+            dp[i] = Math.max(dp[i + 1], dp[Math.min(n, i + brainpower + 1)] + points);
+        }
+        return dp[0];
+    }
 
 
 }
