@@ -308,7 +308,82 @@ class Solution {
         Collections.reverse(res);
         return res;
     }
-}
+    /**二叉树的最小深度*/
+    public int minDepth(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        int height = 1;
+        Deque<TreeNode> que = new LinkedList<>();
+        que.offer(root);
+        while(!que.isEmpty()){
+            int size = que.size();
+            while(size-- > 0){
+                TreeNode p = que.poll();
+                if(p.left == null && p.right == null){
+                    return height;
+                }
+                if(p.left != null){
+                    que.offer(p.left);
+                }
+                if(p.right != null){
+                    que.offer(p.right);
+                }
+            }
+                ++height;
+        }
+        return height;
+    }
+    /**515. 在每个树行中找最大值*/
+    public List<Integer> largestValues(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        if (root == null){
+            return res;
+        }
+        Queue<TreeNode> que = new LinkedList<>();
+        que.offer(root);
+        while(!que.isEmpty()){
+            int mx = Integer.MIN_VALUE;
+            int size = que.size();
+            while(size-- > 0){
+                TreeNode p = que.poll();
+                mx = Math.max(mx, p.val);
+                if (p.left != null){
+                    que.offer(p.left);
+                }
+                if(p.right != null){
+                    que.offer(p.right);
+                }
+            }
+            res.add(mx);
+        }
+        return res;
+    }
+
+    /**429. N 叉树的层序遍历*/
+    public List<List<Integer>> levelOrder(Node root) {
+        List<List<Integer>> res = new LinkedList<>();
+        if(root == null){
+            return res;
+        }
+        Deque<Node> deque = new LinkedList<>();
+        deque.offer(root);
+        while(!deque.isEmpty()){
+            List<Integer> path = new LinkedList<>();
+            int size = deque.size();
+            while(size-- > 0){
+                Node p = deque.poll();
+                path.add(p.val);
+                for (Node child : p.children) {
+                    if(child != null){
+                        deque.offer(child);
+                    }
+                }
+            }
+            res.add(path);
+        }
+        return res;
+    }
 
 
 //=========================================================================
@@ -357,3 +432,18 @@ class TreeNode {
         this.right = right;
     }
 }
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
