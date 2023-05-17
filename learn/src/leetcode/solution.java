@@ -172,9 +172,11 @@ class Solution {
         return stack.isEmpty();
     }
 
-    /**337. 打家劫舍 III*/
+    /**
+     * 337. 打家劫舍 III
+     */
     public int rob(TreeNode root) {
-        if (root == null){
+        if (root == null) {
             return 0;
         }
         int ans = 0;
@@ -182,7 +184,9 @@ class Solution {
         return 1;
     }
 
-    /**1072. 按列翻转得到最大值等行数*/
+    /**
+     * 1072. 按列翻转得到最大值等行数
+     */
     public int maxEqualRowsAfterFlips(int[][] matrix) {
        /* //本质是找出所有行中模式相同的行数最大值
         HashMap<int[], Integer> map = new HashMap<>();
@@ -224,24 +228,26 @@ class Solution {
         return mx;
     }
 
-    /**二叉树的层序遍历*/
+    /**
+     * 二叉树的层序遍历
+     */
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
-        if(root == null){
+        if (root == null) {
             return res;
         }
         Deque<TreeNode> deque = new LinkedList<>();
         deque.offer(root);
-        while(!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             List<Integer> path = new ArrayList<>();
             int size = deque.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 TreeNode p = deque.poll();
                 path.add(p.val);
-                if(p.left != null){
+                if (p.left != null) {
                     deque.offer(p.left);
                 }
-                if(p.right != null){
+                if (p.right != null) {
                     deque.offer(p.right);
                 }
             }
@@ -249,29 +255,32 @@ class Solution {
         }
         return res;
     }
-    /**103. 二叉树的锯齿形层序遍历*/
+
+    /**
+     * 103. 二叉树的锯齿形层序遍历
+     */
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> deque = new LinkedList<>();
-        if (root == null){
+        if (root == null) {
             return res;
         }
         boolean flag = true;
         deque.offer(root);
-        while(!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             Deque<Integer> path = new LinkedList<>();
             int size = deque.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 TreeNode p = deque.poll();
-                if (flag){
+                if (flag) {
                     path.offerLast(p.val);
-                }else{
+                } else {
                     path.offerFirst(p.val);
                 }
-                if (p.left != null){
+                if (p.left != null) {
                     deque.offer(p.left);
                 }
-                if (p.right != null){
+                if (p.right != null) {
                     deque.offer(p.right);
                 }
             }
@@ -282,24 +291,26 @@ class Solution {
     }
 
 
-    /**107. 二叉树的层序遍历 II*/
+    /**
+     * 107. 二叉树的层序遍历 II
+     */
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> deque = new LinkedList<>();
-        if (root == null){
+        if (root == null) {
             return res;
         }
         deque.offer(root);
-        while (!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             ArrayList<Integer> path = new ArrayList<>();
             int size = deque.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 TreeNode p = deque.poll();
                 path.add(p.val);
-                if (p.left != null){
+                if (p.left != null) {
                     deque.offer(p.left);
                 }
-                if (p.right != null){
+                if (p.right != null) {
                     deque.offer(p.right);
                 }
             }
@@ -308,50 +319,56 @@ class Solution {
         Collections.reverse(res);
         return res;
     }
-    /**二叉树的最小深度*/
+
+    /**
+     * 二叉树的最小深度
+     */
     public int minDepth(TreeNode root) {
-        if (root == null){
+        if (root == null) {
             return 0;
         }
         int height = 1;
         Deque<TreeNode> que = new LinkedList<>();
         que.offer(root);
-        while(!que.isEmpty()){
+        while (!que.isEmpty()) {
             int size = que.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 TreeNode p = que.poll();
-                if(p.left == null && p.right == null){
+                if (p.left == null && p.right == null) {
                     return height;
                 }
-                if(p.left != null){
+                if (p.left != null) {
                     que.offer(p.left);
                 }
-                if(p.right != null){
+                if (p.right != null) {
                     que.offer(p.right);
                 }
             }
-                ++height;
+            ++height;
         }
         return height;
     }
-    /**515. 在每个树行中找最大值*/
+
+    /**
+     * 515. 在每个树行中找最大值
+     */
     public List<Integer> largestValues(TreeNode root) {
         LinkedList<Integer> res = new LinkedList<>();
-        if (root == null){
+        if (root == null) {
             return res;
         }
         Queue<TreeNode> que = new LinkedList<>();
         que.offer(root);
-        while(!que.isEmpty()){
+        while (!que.isEmpty()) {
             int mx = Integer.MIN_VALUE;
             int size = que.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 TreeNode p = que.poll();
                 mx = Math.max(mx, p.val);
-                if (p.left != null){
+                if (p.left != null) {
                     que.offer(p.left);
                 }
-                if(p.right != null){
+                if (p.right != null) {
                     que.offer(p.right);
                 }
             }
@@ -360,22 +377,24 @@ class Solution {
         return res;
     }
 
-    /**429. N 叉树的层序遍历*/
+    /**
+     * 429. N 叉树的层序遍历
+     */
     public List<List<Integer>> levelOrder(Node root) {
         List<List<Integer>> res = new LinkedList<>();
-        if(root == null){
+        if (root == null) {
             return res;
         }
         Deque<Node> deque = new LinkedList<>();
         deque.offer(root);
-        while(!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             List<Integer> path = new LinkedList<>();
             int size = deque.size();
-            while(size-- > 0){
+            while (size-- > 0) {
                 Node p = deque.poll();
                 path.add(p.val);
                 for (Node child : p.children) {
-                    if(child != null){
+                    if (child != null) {
                         deque.offer(child);
                     }
                 }
@@ -385,65 +404,98 @@ class Solution {
         return res;
     }
 
-
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-//=========================================================================
-
-class ListNode {
-    int val;
-    ListNode next;
-
-    ListNode() {
+    /**
+     * 235. 二叉搜索树的最近公共祖先
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> p_path = getPath(root, p);
+        List<TreeNode> q_path = getPath(root, q);
+        TreeNode res = root;
+        for (int i = 0; i < Math.min(p_path.size(), q_path.size()); ++i) {
+            if(p_path.get(i) == q_path.get(i)){
+                res = p_path.get(i);
+                //找路径相同的最后一个点
+            }else{
+                break;
+            }
+        }
+        return res;
+    }
+    public List<TreeNode> getPath(TreeNode root, TreeNode key){
+        List<TreeNode> path = new LinkedList<>();
+        while(root != key){
+            path.add(root);
+            if (root.val > key.val){
+                root = root.left;
+            }else{
+                root = root.right;
+            }
+        }
+        return path;
     }
 
-    ListNode(int val) {
-        this.val = val;
+
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+//=========================================================================
+
+    class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 
-    ListNode(int val, ListNode next) {
-        this.val = val;
-        this.next = next;
+
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, List<Node> _children) {
+            val = _val;
+            children = _children;
+        }
     }
 }
-
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode() {
-    }
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-class Node {
-    public int val;
-    public List<Node> children;
-
-    public Node() {}
-
-    public Node(int _val) {
-        val = _val;
-    }
-
-    public Node(int _val, List<Node> _children) {
-        val = _val;
-        children = _children;
-    }
-};
