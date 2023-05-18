@@ -502,5 +502,55 @@ class Solution {
         return dp[0];
     }
 
+    /**115. 不同的子序列*/
+    public int numDistinct(String s, String t) {
+        if (s.length() == 0 || t.length() ==0){
+            return 0;
+        }
+        int[][] dp = new int[s.length() + 1][t.length() + 1];
+        //dp[i][j] 表示s的前i个子序列中，t的（0，j）子串出现的个数
+        //边界问题：s为0，t长度任意，也找不到子序列。所以dp[0][i]均为0
+        //s任意，t为0，则可在s中找到t的子序列，为1, 故dp[i][0] = 1
+        for (int i = 0; i <= s.length(); ++i) {
+            dp[i][0] = 1;
+        }
+        for (int i = 1; i <= s.length(); ++i) {
+            for (int j = 1; j <= t.length(); ++j) {
+                if(j > i){
+                    //如果j>i, 子序列无意义，直接跳过
+                    continue;
+                }
+                if (s.charAt(i - 1) == t.charAt(j - 1)){
+                    //如果相等，那么有两个情况，以i位结尾匹配，不以i位结尾匹配，
+                    //①以i位结尾匹配，因为相等，所以肯定=dp[i - 1][j - 1[
+                    //②不以i位结尾匹配，那肯定和上一个的状态有关，因为都是推来的，
+                    // 那么我们就要在i - 1中，找j的子序列的个数，即dp[i - 1][j]
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                }else {
+                    //此时最后一位不相等，所以答案肯定是s(0,i - 1)中能匹配t(0,j)的个数，因为s的i位不是t的最后一位，指望不上。
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[s.length()][t.length()];
+    }
+
+    /**279. 完全平方数*/
+    public int numSquares(int n) {
+        int[] dp = new int[n + 1];
+        dp[1] = 1; //dp[i]表示以 和为i 的完全平方数的最小数量
+        for (int i = 2; i < Math.sqrt(n); ++i) {
+            dp[i * i] = 1;
+        }
+        for (int i = 2; i <= n; ++i) {
+            int mn = Integer.MAX_VALUE;
+            for (int j = 0; i - j * j >= 0; ++j) {
+                mn = Math.min(mn, 1 + dp[i - j * j]);
+                //i = 2  mn = 1, mn
+            }
+            dp[i] = mn;
+        }
+        return dp[n];
+    }
 
 }

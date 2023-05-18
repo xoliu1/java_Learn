@@ -431,6 +431,7 @@ class Solution {
                 root = root.right;
             }
         }
+        path.add(root);
         return path;
     }
 
