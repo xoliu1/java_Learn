@@ -380,20 +380,20 @@ class Solution {
     /**
      * 429. N 叉树的层序遍历
      */
-    public List<List<Integer>> levelOrder(Node root) {
+    public List<List<Integer>> levelOrder(Node1 root) {
         List<List<Integer>> res = new LinkedList<>();
         if (root == null) {
             return res;
         }
-        Deque<Node> deque = new LinkedList<>();
+        Deque<Node1> deque = new LinkedList<>();
         deque.offer(root);
         while (!deque.isEmpty()) {
             List<Integer> path = new LinkedList<>();
             int size = deque.size();
             while (size-- > 0) {
-                Node p = deque.poll();
+                Node1 p = deque.poll();
                 path.add(p.val);
-                for (Node child : p.children) {
+                for (Node1 child : p.children) {
                     if (child != null) {
                         deque.offer(child);
                     }
@@ -434,6 +434,174 @@ class Solution {
         path.add(root);
         return path;
     }
+    /**538. 把二叉搜索树转换为累加树*/
+    int pre = 0;
+    public TreeNode convertBST(TreeNode root) {
+        if(root == null){
+            return root;
+        }
+        MidTravel(root);
+        return root;
+    }
+    public void MidTravel(TreeNode root){
+        if (root == null){
+            return;
+        }
+        MidTravel(root.right);
+        pre += root.val;
+        root.val = pre;
+        MidTravel(root.left);
+    }
+    /**116. 填充每个节点的下一个右侧节点指针*/
+    public Node connect(Node root) {
+        if (root == null){
+            return root;
+        }
+        Node pre = root;
+        Queue<Node> que = new LinkedList<>();
+        que.offer(root);
+        while(!que.isEmpty()){
+            int size = que.size();
+            pre = que.peek();
+            while(size-- > 0){
+                Node p = que.poll();
+                if(size != 0 || size != que.size() - 1){
+                    pre.next = p;
+                    pre = p;
+                }
+                if(p.left != null){
+                    que.offer(p.left);
+                }
+                if(p.right != null){
+                    que.offer(p.right);
+                }
+                if(size == 0){
+                    pre.next = null;
+                }
+            }
+        }
+        return root;
+    }
+
+    /**200. 岛屿数量*/
+    public int numIslands(char[][] grid) {
+        int res = 0;
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+                if (grid[i][j] == '1'){
+                    fillAround(grid, i, j);//把该点锁在岛屿上的点全部标记
+                    ++res;
+                }
+            }
+        }
+        return res;
+    }
+    public void fillAround(char[][]grid, int i, int j){
+        if (i < 0 || i > grid.length - 1 || j < 0 || j > grid[0].length - 1 || grid[i][j] != '1'){
+            return;     //如果不是陆地或者超出范围就返回
+        }
+        grid[i][j] = '0';//把该点抹去
+        //祸害周围的
+        fillAround(grid, i - 1, j);
+        fillAround(grid, i + 1, j);
+        fillAround(grid, i, j + 1);
+        fillAround(grid, i, j - 1);
+    }
+
+    /**98. 验证二叉搜索树*/
+    public boolean isValidBST(TreeNode root) {
+        return validNode(root, Long.MAX_VALUE, Long.MIN_VALUE);
+    }
+    public boolean validNode(TreeNode root, long mx, long mn){
+        if (root == null){
+            return true;
+            //有空节点应返回true
+        }
+        if (root.val <= mn || root.val >= mx){
+            return false;//如果出了范围，直接返回false
+        }
+        //然后看子节点是否在所应该在的范围内
+        return validNode(root.left, root.val, mn) && validNode(root.right, mx, root.val);
+    }
+
+
+    /**208. 实现 Trie (前缀树)*/
+    class Trie {
+        TrieNode root;
+        class TrieNode{
+            char val;
+            boolean isEnd = false;
+            TrieNode[] children;
+
+            public TrieNode() {
+                this.children = new TrieNode[26];
+            }
+
+            public TrieNode(char val) {
+                this.val = val;
+                this.children = new TrieNode[26];
+            }
+        }
+        public Trie() {
+            root = new TrieNode();
+        }
+
+        public void insert(String word) {
+            TrieNode p = root;
+            for (int i = 0; i < word.length(); ++i) {
+                char ch = word.charAt(i);
+                if (p.children[ch - 'a'] == null){
+                    p.children[ch - 'a'] = new TrieNode(ch);
+                }
+                p = p.children[ch - 'a'];
+                if (i == word.length() - 1){
+                    p.isEnd = true;
+                }
+            }
+        }
+
+        public boolean search(String word) {
+            TrieNode p = root;
+            for (int i = 0; i < word.length(); ++i) {
+                char ch = word.charAt(i);
+                if(p.children[ch - 'a'] == null){
+                    return false;
+                }
+                p = p.children[ch - 'a'];
+            }
+            return p.isEnd;
+        }
+
+        public boolean startsWith(String prefix) {
+            TrieNode p = root;
+            for (int i = 0; i < prefix.length(); ++i) {
+                char ch = prefix.charAt(i);
+                if(p.children[ch - 'a'] == null){
+                    return false;
+                }
+                p = p.children[ch - 'a'];
+            }
+            return true;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //=========================================================================
@@ -483,20 +651,39 @@ class Solution {
         }
     }
 
+    class Node1 {
+        public int val;
+        public List<Node1> children;
+
+        public Node1() {
+        }
+
+        public Node1(int _val) {
+            val = _val;
+        }
+
+        public Node1(int _val, List<Node1> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
     class Node {
         public int val;
-        public List<Node> children;
+        public Node left;
+        public Node right;
+        public Node next;
 
-        public Node() {
-        }
+        public Node() {}
 
         public Node(int _val) {
             val = _val;
         }
 
-        public Node(int _val, List<Node> _children) {
+        public Node(int _val, Node _left, Node _right, Node _next) {
             val = _val;
-            children = _children;
+            left = _left;
+            right = _right;
+            next = _next;
         }
-    }
+    };
 }
