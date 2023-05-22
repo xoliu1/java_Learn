@@ -553,4 +553,22 @@ class Solution {
         return dp[n];
     }
 
+    /**322. 零钱兑换*/
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0){
+            return 0;
+        }
+        int[] dp = new int[amount + 1];
+        for (int i = 1; i <= amount; ++i) {
+            int mn = 9999999;
+            for (int j = 0; j < coins.length; ++j) {
+                if (i >= coins[j]){
+                    mn = Math.min(mn, dp[i - coins[j]]);
+                }
+            }
+            dp[i] = mn + 1;
+        }
+        return dp[amount] == 10000000 ? -1 : dp[amount];
+    }
+
 }
