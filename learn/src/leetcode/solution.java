@@ -614,6 +614,32 @@ class Solution {
     }
 
 
+    /**654. 最大二叉树*/
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return MaxTree(nums, 0, nums.length - 1);
+    }
+    public TreeNode MaxTree(int[] nums, int l, int r){
+        if (l > r){
+            return null;
+        }
+        if (l == r){
+            return new TreeNode(nums[l], null, null);
+        }
+        int maxIndex = getMaxIndex(nums, l, r);
+        TreeNode root = new TreeNode(nums[maxIndex]);
+        root.left = MaxTree(nums, l, maxIndex - 1);
+        root.right = MaxTree(nums, maxIndex + 1, r);
+        return root;
+    }
+    public int getMaxIndex(int[] nums, int l, int r){
+        int idx = l;
+        for (int i = l + 1; i <= r; ++i) {
+            if (nums[i] > nums[idx]){
+                idx = i;
+            }
+        }
+        return idx;
+    }
 
 
 
