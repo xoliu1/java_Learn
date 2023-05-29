@@ -570,5 +570,29 @@ class Solution {
         }
         return dp[amount] == 10000000 ? -1 : dp[amount];
     }
+    /**354. 俄罗斯套娃信封问题  （未解决！）*/
+    public int maxEnvelopes(int[][] envelopes) {
+        if (envelopes.length <= 1){
+            return envelopes.length;
+        }
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        int n = envelopes.length;
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, 1);
+        int res = 1;
+        for (int i = 1; i <= n; ++i) {
+            if (envelopes[i][0] == envelopes[i - 1][0] || envelopes[i][1] <= envelopes[i - 1][1]){
+                continue;
+            }
+            dp[i] = dp[i - 1] + 1;
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
 
 }

@@ -641,6 +641,48 @@ class Solution {
         return idx;
     }
 
+    /*380. O(1) 时间插入、删除和获取随机元素*/
+    class RandomizedSet {
+        ArrayList<Integer> nums;
+        HashMap<Integer, Integer> map;
+        Random r;
+
+        public RandomizedSet() {
+            nums = new ArrayList<>();
+            map = new HashMap<>();//存<元素数值, 索引下标>
+            r = new Random();
+        }
+
+        public boolean insert(int val) {
+            if (map.containsKey(val)){
+                return false;
+            }
+            int size = nums.size();
+            nums.add(val);
+            map.put(val, size);
+            return true;
+        }
+
+        public boolean remove(int val) {
+            if (!map.containsKey(val)){
+                return false;
+            }
+            int idx = map.get(val);//获取在数组内的下标
+            int lastNum = nums.get(nums.size() - 1);
+            nums.set(idx, lastNum);//将要删除数字的位置上边的数字改成最后一个，然后把最后一个删掉。
+            nums.remove(nums.size() - 1);
+            map.put(lastNum, idx);//把最后一个元素放到新的位置上了，需要更新
+            map.remove(val);//哈希表中删除该元素信息
+            return true;
+        }
+
+        public int getRandom() {
+            int RandomIdx = r.nextInt(nums.size());
+            return nums.get(RandomIdx);
+        }
+    }
+
+
 
 
 
