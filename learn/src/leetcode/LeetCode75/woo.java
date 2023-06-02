@@ -88,12 +88,106 @@ class Solve{
         return res;
     }
 
+    /**392. 判断子序列*/
+    public boolean isSubsequence(String s, String t) {
+        if (s.length() == 0){
+            return true;
+        }
+        if (t.length() == 0){
+            return false;
+        }
+        int idx = 0;
+        for (int i = 0; i < t.length(); ++i) {
+            if (idx > s.length() - 1){
+                return true;
+            }
+            if (s.charAt(idx) == t.charAt(i)){
+                ++idx;
+            }
+        }
+        return false;
+    }
 
+    /**1456. 定长子串中元音的最大数目*/
+    public int maxVowels(String s, int k) {
+        if (s.length() == 0 || k == 0){
+            return 0;
+        }
+        int sumOfVowel = 0;
+        for (int i = 0; i < k; ++i) {
+            if (isVowel(s.charAt(i))){
+                ++sumOfVowel;
+            }
+        }
+        int res = sumOfVowel;
+        for (int i = k; i < s.length(); ++i) {
+            char left = s.charAt(i - k);
+            char right = s.charAt(i);
+            if (isVowel(left)){
+                --sumOfVowel;
+            }
+            if (isVowel(right)){
+                ++sumOfVowel;
+            }
+            res = Math.max(res, sumOfVowel);
+        }
+        return res;
+    }
+    public boolean isVowel(char val){
+        return val == 'a' || val == 'e' || val == 'i' || val == 'o' || val == 'u';
+    }
 
+    /**1004. 最大连续1的个数 III*/
+    public int longestOnes(int[] nums, int k) {
+        int leftNum = 0, rightNum = 0;//前缀和（0，n）故不用数组
+        int i = 0, j = 0;
+        int res = 0;
+        for (j = 0; j < nums.length; ++j) {
+            rightNum += 1 - nums[j];
+            while(leftNum < rightNum - k){    //维护合法的滑动窗口移动左边界。
+                leftNum += 1 - nums[i];
+                ++i;
+            }
+            res = Math.max(res, j - i + 1);
+        }
+        return res;
+    }
 
+    /**643. 子数组最大平均数 I*/
+    public double findMaxAverage(int[] nums, int k) {
+        int sum = 0;
+        for (int i = 0; i < k; ++i) {
+            sum += nums[i];
+        }
+        int MaxSum = sum;
+        for (int i = k; i < nums.length; ++i) {
+            sum = sum - nums[i - k] + nums[i];
+            MaxSum = Math.max(MaxSum, sum);
+        }
+        return (double)MaxSum / k;
+    }
 
-
-
+    /**1657. 确定两个字符串是否接近*/
+    public boolean closeStrings(String word1, String word2) {
+        if (word1.length() != word2.length()){
+            return false;
+        }
+        int n = word1.length();
+        int[] cnt1 = new int[26];
+        int[] cnt2 = new int[26];
+        for (int i = 0; i < n; ++i) {
+            ++cnt1[word1.charAt(i) - 'a'];
+            ++cnt2[word2.charAt(i) - 'a'];
+        }
+        for (int i = 0; i < 26; ++i) {
+            if (cnt1[i] == 0 && cnt2[i] != 0 ||cnt2[i] == 0 && cnt1[i] != 0){
+                return false;
+            }
+        }
+        Arrays.sort(cnt1);
+        Arrays.sort(cnt2);
+        return Arrays.compare(cnt1, cnt2) == 0;
+    }
 
 
 

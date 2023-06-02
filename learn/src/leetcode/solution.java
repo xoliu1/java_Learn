@@ -682,6 +682,40 @@ class Solution {
         }
     }
 
+    /**1161. 最大层内元素和*/
+    public int maxLevelSum(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        int mx = Integer.MIN_VALUE;
+        int idx = 1, i = 1;
+        queue.add(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();
+            int sum = 0;
+            while(size-- != 0){
+                TreeNode p = queue.poll();
+                sum += p.val;
+                if (p.left != null){
+                    queue.add(p.left);
+                }
+                if (p.right != null){
+                    queue.add(p.right);
+                }
+            }
+            if (mx < sum){
+                mx = sum;
+
+
+
+
+                idx = i;
+            }
+            ++i;
+        }
+        return idx;
+    }
 
 
 
