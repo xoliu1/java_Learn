@@ -189,10 +189,79 @@ class Solve{
         return Arrays.compare(cnt1, cnt2) == 0;
     }
 
+    /**1207. 独一无二的出现次数*/
+    public boolean uniqueOccurrences(int[] arr) {
+        int[] hash = new int[2001];
+        int[] hashOfHash = new int[2001];
+        for (int i : arr) {
+            ++hash[i + 1000];//统计每一个数的出现次数
+        }
+
+        for (int i : hash) {
+            if(i != 0){
+                ++hashOfHash[i];
+                if(hashOfHash[i] > 1){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    /**2130. 链表最大孪生和*/
+    public int pairSum(ListNode head) {
+        ListNode p = head;
+        ArrayDeque<ListNode> deque = new ArrayDeque<>();
+        while(p != null){
+            deque.addFirst(p);
+            p = p.next;
+        }
+        int mx = 0;
+        while(!deque.isEmpty()){
+            mx = Math.max(mx, deque.pollFirst().val + deque.pollLast().val);
+        }
+        return mx;
+    }
+
+    /**328.奇偶链表*/
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null){
+            return head;
+        }
+        ListNode p = head;
+        ListNode p1 = head.next;
+        ListNode p2 = p1;
+        int n = 1;
+        while(p != null && p1 != null && p1.next != null){
+            if (n % 2 == 1){
+                p.next = p.next.next;
+                p = p.next;
+            }else {
+                p1.next = p1.next.next;
+                p1 = p1.next;
+            }
+            ++n;
+        }
+        p.next = p2;
+        return head;
+    }
 
 
 
+}
 
+class ListNode {
+    int val;
+    ListNode next;
 
+    ListNode() {
+    }
 
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
 }
