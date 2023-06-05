@@ -706,15 +706,28 @@ class Solution {
             }
             if (mx < sum){
                 mx = sum;
-
-
-
-
                 idx = i;
             }
             ++i;
         }
         return idx;
+    }
+    /**1448. 统计二叉树中好节点的数目*/
+    public int goodNodes(TreeNode root) {
+        return travelGoodNodes(root.left, root.val) + travelGoodNodes(root.right, root.val);
+    }
+    public int travelGoodNodes(TreeNode root, int mx){
+        if (root == null){
+            return 0;
+        }
+        int res = 0;
+        if (root.val > mx){
+            ++res;
+            mx = root.val;
+        }
+        res += travelGoodNodes(root.left, mx);
+        res += travelGoodNodes(root.right, mx);
+        return res;
     }
 
 

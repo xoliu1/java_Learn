@@ -244,11 +244,100 @@ class Solve{
         p.next = p2;
         return head;
     }
+    /**2390. 从字符串中移除星号*/
+    public String removeStars(String s) {
+        StringBuilder res = new StringBuilder();
+        Deque<Character> stack = new LinkedList<>();
+        for (int i = 0; i < s.length(); ++i) {
+            char ch = s.charAt(i);
+            if (ch != '*'){
+                stack.offerFirst(ch);
+            }else{
+                stack.pollFirst();
+            }
+        }
+        while(!stack.isEmpty()){
+            Character ch = stack.pollLast();
+            res.append(ch);
+        }
+        return res.toString();
+    }
 
+    /**735. 行星碰撞*/
+    public int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i : asteroids) {
+            if (stack.isEmpty()){
+                stack.offerFirst(i);
+                continue;
+            }
+            boolean bool = true;
+            while(!stack.isEmpty() && bool){
+                int a = stack.peekFirst();
+                if (a * i > 0){
+                    break;
+                }
+                if(a < 0 && i > 0){
+                    break;
+                }
+                if (a == -i && a > 0){
+                    stack.pollFirst();
+                    bool = false;
+                    break;
+                } else if (a > -i){
+                    bool = false;
+                }else{
+                    stack.pollFirst();
+                }
+            }
+            if (bool){
+                stack.offerFirst(i);
+            }
+        }
+        int[] res = new int[stack.size()];
+        int idx = -1;
+        while(!stack.isEmpty()){
+            res[++idx] = stack.pollLast();
+        }
+        return res;
+    }
+
+    /**1926. 迷宫中离入口最近的出口*/
+    public int nearestExit(char[][] maze, int[] entrance) {
+        int row = entrance[0], col = entrance[1];
+        return 1;
+    }
+
+    /**215. 数组中的第K个最大元素*/
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+        for (int i : nums) {
+            queue.offer(i);
+        }
+        while (--k != -1){
+            queue.poll();
+        }
+        return queue.peek();
+    }
 
 
 }
 
+
+
+//===================================================================================
+//===================================================================================
+//===================================================================================
+//===================================================================================
+//===================================================================================
+//===================================================================================
+//===================================================================================
+//===================================================================================
 class ListNode {
     int val;
     ListNode next;
