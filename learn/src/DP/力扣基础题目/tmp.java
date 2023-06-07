@@ -68,7 +68,7 @@ class Solution {
         if (obstacleGrid[0][0] == 1 || obstacleGrid[obstacleGrid.length - 1][obstacleGrid[0].length - 1] == 1) {
             return 0;
         }
-        if(obstacleGrid.length == 1 && obstacleGrid[0].length ==1 && obstacleGrid[0][0] == 0){
+        if (obstacleGrid.length == 1 && obstacleGrid[0].length == 1 && obstacleGrid[0][0] == 0) {
             return 1;
         }
         int row = obstacleGrid.length;
@@ -100,12 +100,15 @@ class Solution {
         }
         return dp[row - 1][col - 1];
     }
-    /**120. 三角形最小路径和*/
+
+    /**
+     * 120. 三角形最小路径和
+     */
     public int minimumTotal(List<List<Integer>> triangle) {
-        if(triangle.size() == 1){
+        if (triangle.size() == 1) {
             return triangle.get(0).get(0);
         }
-        if(triangle.size() == 2){
+        if (triangle.size() == 2) {
             return triangle.get(0).get(0) + Math.min(triangle.get(1).get(0), triangle.get(1).get(1));
         }
         //先对第二行进行初始化
@@ -113,11 +116,11 @@ class Solution {
         triangle.get(1).set(1, triangle.get(1).get(1) + triangle.get(0).get(0));
         for (int i = 2; i < triangle.size(); ++i) {
             for (int j = 0; j < i + 1; ++j) {
-                if(j == 0){
+                if (j == 0) {
                     triangle.get(i).set(j, triangle.get(i - 1).get(0) + triangle.get(i).get(j));
-                }else if(j == i){
+                } else if (j == i) {
                     triangle.get(i).set(j, triangle.get(i - 1).get(j - 1) + triangle.get(i).get(j));
-                }else {
+                } else {
                     triangle.get(i).set(j, triangle.get(i).get(j) + Math.min(triangle.get(i - 1).get(j), triangle.get(i - 1).get(j - 1)));
                 }
             }
@@ -128,18 +131,21 @@ class Solution {
         }
         return mi;
     }
-    /**931. 下降路径最小和*/
+
+    /**
+     * 931. 下降路径最小和
+     */
     public int minFallingPathSum(int[][] matrix) {
         int size = matrix.length;
         //注意，第一行不用初始化
         //第一列和最后一列的数据所进行的比较很特殊
         for (int i = 1; i < size; ++i) {
             for (int j = 0; j < size; ++j) {
-                if(j == 0){
+                if (j == 0) {
                     matrix[i][j] = Math.min(matrix[i - 1][j], matrix[i - 1][j + 1]) + matrix[i][j];
-                }else if(j == size - 1){
+                } else if (j == size - 1) {
                     matrix[i][j] = Math.min(matrix[i - 1][j], matrix[i - 1][j - 1]) + matrix[i][j];
-                }else{
+                } else {
                     matrix[i][j] = Math.min(matrix[i - 1][j], Math.min(matrix[i - 1][j + 1], matrix[i - 1][j - 1])) + matrix[i][j];
                 }
             }
@@ -150,9 +156,12 @@ class Solution {
         }
         return mi;
     }
-    /**221. 最大正方形*/
+
+    /**
+     * 221. 最大正方形
+     */
     public int maximalSquare(char[][] matrix) {
-        if(matrix.length == 0 || matrix[0].length == 0){
+        if (matrix.length == 0 || matrix[0].length == 0) {
             return 0;
         }
         int row = matrix.length;
@@ -161,13 +170,13 @@ class Solution {
         int sideLength = 0;
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < col; ++j) {
-                if(matrix[i][j] == '1'){
-                    if(i == 0 || j == 0){
+                if (matrix[i][j] == '1') {
+                    if (i == 0 || j == 0) {
                         dp[i][j] = 1;
-                    }else{
+                    } else {
                         dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
                     }
-                }else{
+                } else {
                     dp[i][j] = 0;
                 }
                 sideLength = Math.max(dp[i][j], sideLength);
@@ -175,9 +184,12 @@ class Solution {
         }
         return sideLength * sideLength;
     }
-    /**5.最长回文子串*/
+
+    /**
+     * 5.最长回文子串
+     */
     public String longestPalindrome(String s) {
-        if (s.length() < 2){
+        if (s.length() < 2) {
             return s;
         }
         int size = s.length();
@@ -195,20 +207,20 @@ class Solution {
                 //表示右边界
                 int j = L + i - 1;
                 //一旦发生数组越界，break;
-                if(j >= size){
+                if (j >= size) {
                     break;
                 }
                 //状态转移过程
-                if (s.charAt(i) != s.charAt(j)){
+                if (s.charAt(i) != s.charAt(j)) {
                     dp[i][j] = false;
-                }else{
-                    if(j - i < 3){  //加快判断，如果 j - i < 3,则一定回文
+                } else {
+                    if (j - i < 3) {  //加快判断，如果 j - i < 3,则一定回文
                         dp[i][j] = true;
-                    }else{
+                    } else {
                         dp[i][j] = dp[i + 1][j - 1];//和dp[i + 1][j - 1] 保持一致
                     }
                 }
-                if (dp[i][j] && j - i + 1 > maxlen){    //如果是回文串且大于记录的最大长度，则进行更新
+                if (dp[i][j] && j - i + 1 > maxlen) {    //如果是回文串且大于记录的最大长度，则进行更新
                     maxlen = j - i + 1;
                     begin = i;
                 }
@@ -217,14 +229,16 @@ class Solution {
         return s.substring(begin, begin + maxlen);
     }
 
-    /**139. 单词拆分*/
+    /**
+     * 139. 单词拆分
+     */
     public boolean wordBreak(String s, List<String> wordDict) {
         HashSet<String> set = new HashSet<>(wordDict);
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
         for (int i = 0; i <= s.length(); ++i) {
             for (int j = 0; j < i; ++j) {
-                if (dp[j] && set.contains(s.substring(j, i))){
+                if (dp[j] && set.contains(s.substring(j, i))) {
                     dp[i] = true;
                     break;
                 }
@@ -234,7 +248,9 @@ class Solution {
     }
 
 
-    /**518. 零钱兑换 II*/
+    /**
+     * 518. 零钱兑换 II
+     */
     public int change(int amount, int[] coins) {
         int[] dp = new int[amount + 1];
         //dp[i] 表示兑换i面额的组合数
@@ -246,9 +262,12 @@ class Solution {
         }
         return dp[amount];
     }
-    /**516. 最长回文子序列*/
+
+    /**
+     * 516. 最长回文子序列
+     */
     public int longestPalindromeSubseq(String s) {
-        if (s.length() <= 1){
+        if (s.length() <= 1) {
             return s.length();
         }
         int[][] dp = new int[s.length()][s.length()];
@@ -262,16 +281,19 @@ class Solution {
         for (int i = dp.length - 1; i >= 0; --i) {
             //需要逆序，因为要从短的子序列到长的子序列
             for (int j = i + 1; j < dp.length; ++j) {
-                if (s.charAt(i) == s.charAt(j)){
+                if (s.charAt(i) == s.charAt(j)) {
                     dp[i][j] = dp[i + 1][j - 1] + 2;
-                }else{
+                } else {
                     dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
                 }
             }
         }
         return dp[0][dp.length - 1];
     }
-    /**712. 两个字符串的最小ASCII删除和*/
+
+    /**
+     * 712. 两个字符串的最小ASCII删除和
+     */
     public int minimumDeleteSum(String s1, String s2) {
         int[][] dp = new int[s1.length() + 1][s2.length() + 1];
         //特殊情况处理，如果i = 0 或者 j = 0时，那么这个值就是另一个子串的所有ASCII码值
@@ -284,9 +306,9 @@ class Solution {
 
         for (int i = 1; i < s1.length(); ++i) {
             for (int j = 1; j < s2.length(); ++j) {
-                if(s1.charAt(i) == s2.charAt(j)){   //相等，不加东西，继承上一个的和
+                if (s1.charAt(i) == s2.charAt(j)) {   //相等，不加东西，继承上一个的和
                     dp[i][j] = dp[i - 1][j - 1];
-                }else{
+                } else {
                     //此时三种情况，要i不要j,要j不要i，或者都不要，看哪个小
                     dp[i][j] = Math.min(dp[i - 1][j] + s1.codePointAt(i), dp[i][j - 1] + s2.codePointAt(j));
                 }
@@ -298,7 +320,9 @@ class Solution {
      * 转换思路，求最大ascii公共子序列，然后减去这个和*2，即为答案
      */
 
-    /**72. 编辑距离*/
+    /**
+     * 72. 编辑距离
+     */
     public int minDistance(String s1, String s2) {
         int len1 = s1.length(), len2 = s2.length();
         int[][] dp = new int[len1 + 1][len2 + 1];
@@ -312,19 +336,21 @@ class Solution {
         }
         for (int i = 1; i <= len1; ++i) {
             for (int j = 1; j <= len2; ++j) {
-                if (s1.charAt(i - 1) == s2.codePointAt(j - 1)){
+                if (s1.charAt(i - 1) == s2.codePointAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
-                }else {
+                } else {
                     dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
                 }
             }
         }
-        return  dp[len1][len2];
+        return dp[len1][len2];
     }
 
-    /**646. 最长数对链*/
+    /**
+     * 646. 最长数对链
+     */
     public int findLongestChain(int[][] pairs) {
-        if (pairs.length == 0 || pairs[0].length == 0){
+        if (pairs.length == 0 || pairs[0].length == 0) {
             return 0;
         }
         Arrays.sort(pairs, new Comparator<int[]>() {
@@ -337,7 +363,7 @@ class Solution {
         Arrays.fill(dp, 1);
         for (int i = 1; i < pairs.length; ++i) {
             for (int j = 0; j < i; ++j) {
-                if (pairs[j][1] < pairs[i][0]){
+                if (pairs[j][1] < pairs[i][0]) {
                     dp[i] = Math.max(dp[i], dp[j] + 1);
                 }
             }
@@ -349,7 +375,9 @@ class Solution {
         return mx;
     }
 
-    /**1218. 最长定差子序列*/
+    /**
+     * 1218. 最长定差子序列
+     */
     public int longestSubsequence(int[] arr, int difference) {
 //        if (arr.length < 2){
 //            return arr.length;
@@ -372,7 +400,7 @@ class Solution {
          * 上述方法超时啦！ 草
          * 以下是哈希表的优化
          * */
-        if (arr.length < 2){
+        if (arr.length < 2) {
             return arr.length;
         }
         int mx = -1001;
@@ -386,9 +414,11 @@ class Solution {
         return mx;
     }
 
-    /**1027. 最长等差数列*/
+    /**
+     * 1027. 最长等差数列
+     */
     public int longestArithSeqLength(int[] nums) {
-        if (nums.length < 2){
+        if (nums.length < 2) {
             return nums.length;
         }
         int mi = 501, mx = -1;
@@ -410,7 +440,9 @@ class Solution {
 
     }
 
-    /**1035. 不相交的线*/
+    /**
+     * 1035. 不相交的线
+     */
     public int maxUncrossedLines(int[] nums1, int[] nums2) {
         int[][] dp = new int[nums1.length + 1][nums2.length + 1];
         //含义为数组A的前i项和数组B的前j项的不相交的线的个数
@@ -422,9 +454,9 @@ class Solution {
         }
         for (int i = 1; i <= nums1.length; ++i) {
             for (int j = 1; j <= nums2.length; ++j) {
-                if (nums1[i - 1] == nums2[j - 1]){
+                if (nums1[i - 1] == nums2[j - 1]) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
-                }else{
+                } else {
                     dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
                 }
             }
@@ -432,12 +464,14 @@ class Solution {
         return dp[nums1.length][nums2.length];
     }
 
-    /**96. 不同的二叉搜索树*/
+    /**
+     * 96. 不同的二叉搜索树
+     */
     public int numTrees(int n) {
         int[] dp = new int[n + 1];
         dp[0] = 1;//确保  j == 1 时， dp[i] += 1 * dp[i - j];
         dp[1] = 1;
-        if (n == 1){
+        if (n == 1) {
             return 1;
         }
         for (int i = 2; i <= n; ++i) {
@@ -448,13 +482,15 @@ class Solution {
         return dp[n];
     }
 
-    /**377. 组合总和 Ⅳ*/
+    /**
+     * 377. 组合总和 Ⅳ
+     */
     public int combinationSum4(int[] nums, int target) {
         int[] dp = new int[target + 1];
         dp[0] = 1;
         for (int i = 1; i <= target; ++i) {
             for (int j : nums) {
-                if (i >= j){
+                if (i >= j) {
                     dp[i] += dp[i - j];
                 }
             }
@@ -462,7 +498,9 @@ class Solution {
         return dp[target];
     }
 
-    /**673. 最长递增子序列的个数*/
+    /**
+     * 673. 最长递增子序列的个数
+     */
     public int findNumberOfLIS(int[] nums) {
         int[] dp = new int[nums.length];
         int[] cnt = new int[nums.length];
@@ -473,24 +511,27 @@ class Solution {
             dp[i] = 1;
             for (int j = 0; j < i; ++j) {
                 if (nums[i] > nums[j]) {
-                    if (dp[i] < dp[j] + 1){
+                    if (dp[i] < dp[j] + 1) {
                         dp[i] = dp[j] + 1;
                         cnt[i] = cnt[j];
-                    }else if(dp[j] + 1 == dp[i]){
+                    } else if (dp[j] + 1 == dp[i]) {
                         cnt[i] += cnt[j];
                     }
                 }
             }
-            if(dp[i] > mx){
+            if (dp[i] > mx) {
                 mx = dp[i];
                 ans = cnt[i];
-            }else if (dp[i] == mx){
+            } else if (dp[i] == mx) {
                 ans += cnt[i];
             }
         }
         return ans;
     }
-    /**2140. 解决智力问题*/
+
+    /**
+     * 2140. 解决智力问题
+     */
     public long mostPoints(int[][] questions) {
         var n = questions.length;
         var dp = new long[n + 1];
@@ -502,9 +543,11 @@ class Solution {
         return dp[0];
     }
 
-    /**115. 不同的子序列*/
+    /**
+     * 115. 不同的子序列
+     */
     public int numDistinct(String s, String t) {
-        if (s.length() == 0 || t.length() ==0){
+        if (s.length() == 0 || t.length() == 0) {
             return 0;
         }
         int[][] dp = new int[s.length() + 1][t.length() + 1];
@@ -516,17 +559,17 @@ class Solution {
         }
         for (int i = 1; i <= s.length(); ++i) {
             for (int j = 1; j <= t.length(); ++j) {
-                if(j > i){
+                if (j > i) {
                     //如果j>i, 子序列无意义，直接跳过
                     continue;
                 }
-                if (s.charAt(i - 1) == t.charAt(j - 1)){
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
                     //如果相等，那么有两个情况，以i位结尾匹配，不以i位结尾匹配，
                     //①以i位结尾匹配，因为相等，所以肯定=dp[i - 1][j - 1[
                     //②不以i位结尾匹配，那肯定和上一个的状态有关，因为都是推来的，
                     // 那么我们就要在i - 1中，找j的子序列的个数，即dp[i - 1][j]
                     dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
-                }else {
+                } else {
                     //此时最后一位不相等，所以答案肯定是s(0,i - 1)中能匹配t(0,j)的个数，因为s的i位不是t的最后一位，指望不上。
                     dp[i][j] = dp[i - 1][j];
                 }
@@ -535,7 +578,9 @@ class Solution {
         return dp[s.length()][t.length()];
     }
 
-    /**279. 完全平方数*/
+    /**
+     * 279. 完全平方数
+     */
     public int numSquares(int n) {
         int[] dp = new int[n + 1];
         dp[1] = 1; //dp[i]表示以 和为i 的完全平方数的最小数量
@@ -553,16 +598,18 @@ class Solution {
         return dp[n];
     }
 
-    /**322. 零钱兑换*/
+    /**
+     * 322. 零钱兑换
+     */
     public int coinChange(int[] coins, int amount) {
-        if (amount == 0){
+        if (amount == 0) {
             return 0;
         }
         int[] dp = new int[amount + 1];
         for (int i = 1; i <= amount; ++i) {
             int mn = 9999999;
             for (int j = 0; j < coins.length; ++j) {
-                if (i >= coins[j]){
+                if (i >= coins[j]) {
                     mn = Math.min(mn, dp[i - coins[j]]);
                 }
             }
@@ -570,9 +617,12 @@ class Solution {
         }
         return dp[amount] == 10000000 ? -1 : dp[amount];
     }
-    /**354. 俄罗斯套娃信封问题  （未解决！）*/
+
+    /**
+     * 354. 俄罗斯套娃信封问题  （未解决！）
+     */
     public int maxEnvelopes(int[][] envelopes) {
-        if (envelopes.length <= 1){
+        if (envelopes.length <= 1) {
             return envelopes.length;
         }
         Arrays.sort(envelopes, new Comparator<int[]>() {
@@ -586,7 +636,7 @@ class Solution {
         Arrays.fill(dp, 1);
         int res = 1;
         for (int i = 1; i <= n; ++i) {
-            if (envelopes[i][0] == envelopes[i - 1][0] || envelopes[i][1] <= envelopes[i - 1][1]){
+            if (envelopes[i][0] == envelopes[i - 1][0] || envelopes[i][1] <= envelopes[i - 1][1]) {
                 continue;
             }
             dp[i] = dp[i - 1] + 1;
@@ -594,5 +644,61 @@ class Solution {
         }
         return res;
     }
+
+    /**
+     * 790. 多米诺和托米诺平铺
+     */
+    public int numTilings(int n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int[] dp = new int[n + 1];
+        for (int i = 3; i <= n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                dp[i] = dp[j] + dp[i - j];
+            }
+        }
+        return dp[n];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
